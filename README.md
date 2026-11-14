@@ -19,12 +19,10 @@ bun run build      # outputs dist/
 ## Environment variables
 | Var | Purpose |
 | --- | --- |
-| `VITE_FORM_ENDPOINT` | URL receiving JSON POSTs from the early-access and contact forms (e.g. a Formspree form endpoint). If empty, forms validate and then show an error asking visitors to email lanre@vesselgrid.site; they never fake success. |
 
 No secrets live in frontend code.
 
 ## Deploy
-Any static host. SPA fallback is included for Netlify (`public/_redirects`) and Vercel (`vercel.json`). For S3 + CloudFront, set the error document / 403-404 response to `/index.html` (200). Set `VITE_FORM_ENDPOINT` in the host's build env.
 
 ## SEO
 Title, description, canonical, Open Graph/Twitter tags, JSON-LD (Organization + SoftwareApplication), `robots.txt`, `sitemap.xml`, `favicon.svg`, `og-image.svg` (convert to PNG for best social preview support). `index.html` contains a static crawlable summary of the page that React replaces on mount.
@@ -34,8 +32,23 @@ The AWS section describes the **proposed** architecture (API Gateway, Lambda, S3
 
 ## Pre-deployment checklist
 - [ ] Confirm founder title, HQ city, pricing period, launch date, funding (see `/app` → Assumptions)
-- [ ] Set `VITE_FORM_ENDPOINT` and submit one real test per form
-- [ ] lanre@vesselgrid.site receives mail
+- [ ] nimot@vesselgrid.site receives mail
 - [ ] Deploy to www.vesselgrid.site with HTTPS; check `/`, `/privacy`, `/terms`, a 404 URL, `/app`
 - [ ] Upload logo + banner to the LinkedIn page; paste tagline/overview/specialties from `/app`
 - [ ] Browsers: current Chrome, Edge, Safari, Firefox (ES2020+)
+
+## Backend: Firebase
+
+Config is hard-coded in `src/lib/firebase.js` (Firebase web config is public by design; security comes from Auth + rules).
+
+- **Firebase Authentication** (email/password, password reset email): `/signup`, `/login`, `/onboarding`.
+- **Cloud Firestore**: `users/{uid}` (profile + workspace settings), `users/{uid}/calls/{id}` (port calls), `users/{uid}/log/{id}` (activity), `leads/{id}` (demo/contact form submissions, create-only).
+- **Google Analytics for Firebase** (measurement ID in config).
+
+### One-time Firebase console setup (required)
+1. Authentication → Sign-in method → enable **Email/Password**.
+2. Authentication → Settings → Authorized domains → add `vesselgrid.site` and `www.vesselgrid.site`.
+3. Firestore → Rules → paste `firestore.rules` → **Publish** (or `firebase deploy --only firestore:rules`).
+   Without this, every database write is refused and the app shows an error toast.
+
+Dashboard: create/edit/delete port calls, search and status filter, CSV import/export, print-to-PDF, berth timeline with clash detection and re-sequencing, approve/reject queue, activity log, settings, real-time sync across devices.

@@ -2,10 +2,10 @@ export const company = {
   name: 'VesselGrid',
   domain: 'vesselgrid.site',
   url: 'https://www.vesselgrid.site',
-  email: 'lanre@vesselgrid.site',
+  email: 'nimot@vesselgrid.site',
   linkedin: 'https://www.linkedin.com/company/vesselgrid',
   founded: '2026',
-  founder: { name: 'Lanre Bola', title: 'Founder' },
+  founder: { name: 'Nimotallah Lawal', title: 'Founder' },
   stage: 'Building initial product',
   tagline: 'AI vessel ETAs, berth scheduling and harbor dispatch for terminal operators and shipping lines.',
   positioning:
@@ -13,9 +13,9 @@ export const company = {
 }
 
 export const pricing = [
-  { name: 'Starter', price: '₦4,000', for: 'Single-berth operators and harbor service providers getting started.', items: ['Vessel arrival board', 'Predictive ETA for tracked vessels', 'Manual berth plan with conflict checks', 'One user workspace'] },
-  { name: 'Growth', price: '₦10,000', for: 'Terminals running several berths and daily schedule changes.', items: ['Everything in Starter', 'Dynamic berth scheduler', 'Tug and pilot dispatch planning', 'Congestion risk alerts', 'Team workspace'], featured: true },
-  { name: 'Enterprise', price: '₦20,000', for: 'Multi-terminal operators, port authorities and shipping lines.', items: ['Everything in Growth', 'AI shift summaries and risk reports', 'Multi-terminal views', 'Integration support for terminal systems', 'Priority onboarding'] },
+  { name: 'Starter', price: '$30', for: 'Single-berth operators and harbor service providers getting started.', items: ['Vessel arrival board', 'Predictive ETA for tracked vessels', 'Manual berth plan with conflict checks', 'One user workspace'] },
+  { name: 'Growth', price: '$70', for: 'Terminals running several berths and daily schedule changes.', items: ['Everything in Starter', 'Dynamic berth scheduler', 'Tug and pilot dispatch planning', 'Congestion risk alerts', 'Team workspace'], featured: true },
+  { name: 'Enterprise', price: '$100', for: 'Multi-terminal operators, port authorities and shipping lines.', items: ['Everything in Growth', 'AI shift summaries and risk reports', 'Multi-terminal views', 'Integration support for terminal systems', 'Priority onboarding'] },
 ]
 
 export const awsServices = [

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { db } from '../lib/firebase'
 
-const endpoint = import.meta.env.VITE_FORM_ENDPOINT
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)
 
 export default function LeadForm({ fields, formName, submitLabel = 'Submit', dark = false }) {
@@ -25,14 +26,13 @@ export default function LeadForm({ fields, formName, submitLabel = 'Submit', dar
   const submit = async (ev) => {
     ev.preventDefault()
     if (!validate()) return
-    if (!endpoint) { setState('error'); setMsg('Online submissions are not connected yet. Please email lanre@vesselgrid.site directly.'); return }
     setState('loading')
     try {
-      const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ form: formName, ...values }) })
-      if (!res.ok) throw new Error()
+      const clean = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, v.trim().slice(0, 4000)]))
+      await Promise.race([new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 12000)), addDoc(collection(db, 'leads'), { form: formName, ...clean, page: window.location.pathname, createdAt: serverTimestamp() })])
       setState('success'); setValues(init)
     } catch {
-      setState('error'); setMsg('We could not send your message. Please try again or email lanre@vesselgrid.site.')
+      setState('error'); setMsg('We could not send your message. Please try again or email nimot@vesselgrid.site.')
     }
   }
 

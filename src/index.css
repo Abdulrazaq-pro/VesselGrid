@@ -27,3 +27,6 @@ body { background: var(--color-paper); color: var(--color-ink); font-family: var
 .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
 :focus-visible { outline: 2px solid var(--color-signal); outline-offset: 2px; }
+
+@keyframes toast { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media print { header, footer, nav { display: none; } }

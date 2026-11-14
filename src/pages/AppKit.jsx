@@ -58,7 +58,7 @@ const activate = [
   ['Q10', 'Planned product launch date', 'March 2, 2027', 'Assumed: no launch date supplied; set ~4 months out within the 3–6 month guidance.'],
   ['Q11', 'Most recent funding round', 'No Funding (leave month/year blank)', 'Assumed: no funding was supplied in the business details.'],
   ['Q12', 'Latest valuation', 'No Valuation', 'No priced round.'],
-  ['Q13', 'Percentage of spend on AWS', '75 - 99%', 'Entire planned backend runs on AWS; domain/email/form services sit outside.'],
+  ['Q13', 'Percentage of spend on AWS', '25 - 50%', 'Mixed: accounts and workspace data run on Google Firebase today; the ETA data pipeline and ML (S3, Lambda, SageMaker, Bedrock) are planned on AWS.'],
   ['Q14', 'Annual marketing spend', '< $250,000', 'Bootstrapped early-stage company.'],
 ]
 
@@ -72,23 +72,24 @@ const details = [
   ['AI/ML', 'Used to improve the product (ETA models, generative shift reports)'],
   ['Funding', 'None (assumed)'],
   ['Valuation', 'None'],
-  ['Tech stack & AWS', 'React (Vite, Tailwind) web app; proposed AWS: API Gateway, Lambda, S3, SageMaker, DynamoDB, Bedrock'],
-  ['Share of infra on AWS', '75–99%'],
+  ['Tech stack & AWS', 'React (Vite, Tailwind) web app; Firebase Authentication + Cloud Firestore live for accounts and workspace data; proposed AWS: API Gateway, Lambda, S3, SageMaker, DynamoDB, Bedrock for the ETA pipeline'],
+  ['Share of infra on AWS', '25–50% (mixed with Firebase)'],
   ['Marketing spend', '< $250,000'],
-  ['Team size and country', '1 founder (2–10 company-size band on LinkedIn); Nigeria (assumed from naira pricing)'],
+  ['Team size and country', '1 founder (2–10 company-size band on LinkedIn); Nigeria (assumed — confirm)'],
   ['6–12 month goals', 'Ship the ETA engine and berth scheduler MVP, onboard first early-access terminals, validate prediction accuracy against real port calls.'],
 ]
 
 const assumed = [
-  'Founder title shown as "Founder" — confirm Lanre Bola\'s exact title.',
-  'Headquarters / country: Nigeria inferred from naira pricing — confirm city before adding to LinkedIn.',
-  'Pricing ₦4,000 / ₦10,000 / ₦20,000 shown as monthly per workspace — confirm billing period and tier names.',
+  'Founder title shown as "Founder" — confirm Nimotallah Lawal\'s exact title.',
+  'Headquarters / country: Nigeria assumed — confirm country and city before adding to LinkedIn.',
+  'Pricing $30 / $70 / $100 per month per workspace (USD, confirmed by founder); annual = 12x monthly, no discount.',
   'Launch date March 2, 2027 (Q10) — replace with your real target.',
   'Funding = No Funding, Valuation = No Valuation (Q11–Q12).',
   'API ticked in Q7 — untick if no API is being built yet.',
   'Team size 2–10 on LinkedIn is a size band; only one person (founder) is named on the site.',
   'Founder personal LinkedIn not supplied, so no personal link is published.',
-  'VITE_FORM_ENDPOINT must be set in hosting env vars, otherwise forms show an "email us" error (never fake success).',
+  'Stage stays "Ideating/building initial product": the /signup → /dashboard workspace works but stores data in the browser only; ETA models, AIS feeds and AWS backend are not deployed yet. Do not claim launched customers.',
+  'Forms save to the Firestore "leads" collection: read them in Firebase console → Firestore → leads.',
 ]
 
 export default function AppKit() {
@@ -170,8 +171,8 @@ export default function AppKit() {
           <h3 className="mt-6 font-semibold">Before submitting</h3>
           <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-ink/75">
             <li>Deploy to www.vesselgrid.site with HTTPS and confirm / , /privacy, /terms and an unknown URL (404) load.</li>
-            <li>Set VITE_FORM_ENDPOINT (e.g. Formspree) and send one real test through each form.</li>
-            <li>Make sure lanre@vesselgrid.site receives mail (AWS checks the business email domain matches the website).</li>
+            <li>Publish firestore.rules in Firebase console, enable Email/Password sign-in, add www.vesselgrid.site under Authentication → Authorized domains, then send one real test through each form.</li>
+            <li>Make sure nimot@vesselgrid.site receives mail (AWS checks the business email domain matches the website).</li>
             <li>Upload logo + banner to the LinkedIn page and paste tagline, overview and specialties above.</li>
             <li>Apply via HubSpot for Startups with the same company name, domain, email and stage.</li>
           </ul>

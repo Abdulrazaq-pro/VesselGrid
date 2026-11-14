@@ -1,5 +1,7 @@
-import { useEffect } from 'react'
-import { ArrowRight, Radar, CalendarRange, Waves, LifeBuoy, FileText, ListChecks, Satellite, Database, Cpu, Brain, Monitor, Check, Mail, Building2, Ship, Anchor, Compass } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../lib/auth'
+import { ArrowRight, ArrowDownRight, Radar, CalendarRange, Waves, LifeBuoy, FileText, ListChecks, Satellite, Database, Cpu, Brain, Monitor, Check, Mail, Ship, Anchor, Compass, Building2 } from 'lucide-react'
 import { Page } from '../components/Layout'
 import Linkedin from '../components/LinkedinIcon'
 import Demo, { BerthGantt } from '../components/Demo'
@@ -15,231 +17,291 @@ function useReveal() {
   }, [])
 }
 
-const Label = ({ n, children, light }) => <p className={`font-mono text-xs uppercase tracking-[.2em] ${light ? 'text-foam' : 'text-sea'}`}><span className="text-signal">{n}</span> — {children}</p>
-const H2 = ({ children, light }) => <h2 className={`mt-3 font-display text-3xl font-semibold leading-tight sm:text-5xl ${light ? 'text-paper' : ''}`}>{children}</h2>
-
+const Tag = ({ children, light }) => <p className={`inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[.22em] ${light ? 'text-foam' : 'text-sea'}`}><span className="h-px w-6 bg-signal" />{children}</p>
 const featIcons = [Radar, CalendarRange, Waves, LifeBuoy, FileText, ListChecks]
+const segIcons = [Anchor, Building2, Ship, Compass]
+
+const board = [
+  ['MSC LAGOS', 'Declared 06:00', 'Predicted 09:40', 'B2', 'late'],
+  ['KOTA BAHARI', 'Declared 11:00', 'Predicted 10:15', 'B3', 'early'],
+  ['GRANDE TEMA', 'Declared 14:30', 'Predicted 14:50', 'B4', 'ok'],
+  ['ONE CROWN', 'Declared 19:00', 'Predicted 23:20', 'B1', 'late'],
+]
+
+function ArrivalBoard() {
+  const [i, setI] = useState(0)
+  useEffect(() => { const t = setInterval(() => setI((x) => (x + 1) % board.length), 2600); return () => clearInterval(t) }, [])
+  return (
+    <div className="rounded-2xl border border-paper/15 bg-deep/70 p-5 font-mono text-xs text-paper">
+      <div className="flex items-center justify-between text-paper/50"><span>ARRIVALS · LEKKI DEEP QUAY</span><span className="rounded border border-paper/25 px-1.5 py-0.5 text-[10px]">PREVIEW</span></div>
+      <div className="mt-4 space-y-1.5">
+        {board.map(([v, d, p, b, s], k) => (
+          <div key={v} className={`grid grid-cols-[1.3fr_1fr_1fr_.4fr] items-center gap-2 rounded-md px-2.5 py-2 transition ${k === i ? 'bg-paper/10' : ''}`}>
+            <span className="truncate font-semibold">{v}</span>
+            <span className="text-paper/40 line-through decoration-paper/30">{d.replace('Declared ', '')}</span>
+            <span className={s === 'late' ? 'text-signal' : s === 'early' ? 'text-foam' : 'text-paper'}>{p.replace('Predicted ', '')}</span>
+            <span className="text-right text-paper/60">{b}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 border-t border-paper/10 pt-3 text-[11px] text-paper/60">Berth plan re-sequenced for {board[i][0]} · tug and pilot slots updated</div>
+    </div>
+  )
+}
+
+const steps = [
+  ['Ingest', 'AIS positions, marine weather, port call history and terminal constraints arrive through one API.', Satellite],
+  ['Predict', 'ETA models estimate arrival at the fairway buoy and at the berth, with a confidence window.', Brain],
+  ['Plan', 'The scheduler sequences berths, cranes, tugs and pilots against length, draft, cargo and tide windows.', CalendarRange],
+  ['Approve', 'Planners review the conflicts the system could not resolve, then publish the plan to lines and agents.', ListChecks],
+]
+const pipeline = [
+  ['Data collection', 'Amazon API Gateway', Satellite], ['Secure storage', 'Amazon S3', Database], ['Processing', 'AWS Lambda', Cpu],
+  ['AI intelligence', 'Amazon SageMaker · Amazon Bedrock', Brain], ['Application experience', 'Amazon DynamoDB', Monitor],
+]
 
 export default function Home() {
   useReveal()
+  const { user } = useAuth()
   return (
     <Page>
-      {/* HERO */}
-      <section id="product" className="chart-grid relative overflow-hidden border-b border-ink/10">
-        <div className="mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 lg:pt-20">
-          <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink/60">
-            <span className="rounded-full border border-ink/20 bg-paper px-3 py-1">Lat 6.42°N · Port operations software</span>
-            <span className="rounded-full bg-signal/10 px-3 py-1 text-signal">Early access open</span>
-          </div>
-          <h1 className="mt-6 max-w-5xl font-display text-[2.6rem] font-semibold leading-[1.02] tracking-tight sm:text-7xl lg:text-[5.5rem]">
-            Berth plans that move <em className="font-normal italic text-sea">with the ships.</em>
-          </h1>
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_1.35fr] lg:items-end">
-            <div>
-              <p className="text-lg leading-relaxed text-ink/75">VesselGrid predicts when each vessel will really arrive, from live AIS positions, marine weather and past port congestion, then sequences berths, cranes, tugs and pilots around that prediction. When a ship slows down, the plan changes before the quay does.</p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a href="#demo" className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-semibold text-paper hover:bg-deep">Explore the demo <ArrowRight size={17} /></a>
-                <a href="#access" className="inline-flex items-center gap-2 rounded-full border border-ink/25 px-6 py-3 font-semibold hover:bg-ink/5">Request early access</a>
-              </div>
-            </div>
-            <div className="rounded-2xl border border-ink/15 bg-paper/95 p-4 shadow-[0_20px_60px_-30px_rgba(11,29,42,.4)] sm:p-5">
-              <div className="mb-4 flex items-center justify-between text-xs"><span className="font-semibold">Berth plan · next 48 hours</span><span className="font-mono text-ink/40">SAMPLE DATA</span></div>
-              <BerthGantt compact />
-              <div className="mt-4 grid grid-cols-3 gap-2 border-t border-ink/10 pt-3 text-xs">
-                <div><p className="text-ink/50">Kota Bahari</p><p className="font-mono font-semibold text-sea">−45 min early</p></div>
-                <div><p className="text-ink/50">MSC Lagos</p><p className="font-mono font-semibold text-signal">+6h40 late</p></div>
-                <div><p className="text-ink/50">Delta Spirit</p><p className="font-mono font-semibold text-signal">Needs berth</p></div>
-              </div>
+      {/* HERO — dark, split: statement + live arrival board */}
+      <section id="product" className="chart-grid-dark relative overflow-hidden bg-ink text-paper">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:py-24">
+          <div>
+            <Tag light>Port operations software</Tag>
+            <h1 className="mt-6 font-display text-[2.6rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">The declared ETA is a guess.<br /><span className="text-signal">Plan around the real one.</span></h1>
+            <p className="mt-6 max-w-xl text-lg text-paper/70">VesselGrid predicts when each vessel will actually arrive from live AIS and weather data, then turns those predictions into a berth, tug and pilot plan that updates as ships move.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to={user ? '/dashboard' : '/signup'} className="inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 font-semibold text-white hover:brightness-110">{user ? 'Go to dashboard' : 'Launch your workspace'} <ArrowRight size={18} /></Link>
+              <a href="#access" className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-6 py-3 font-semibold hover:bg-paper/10">Book a demo</a>
             </div>
           </div>
+          <ArrivalBoard />
         </div>
-        {/* capability strip */}
-        <div className="border-t border-ink/10 bg-ink text-paper">
-          <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-paper/10 px-4 sm:px-6 lg:grid-cols-4">
-            {[['ETA', 'Predicted, not declared, arrival times'], ['72 h', 'Congestion outlook horizon'], ['1 plan', 'Berths, cranes, tugs and pilots together'], ['Human review', 'Every automated change can be approved']].map(([a, b]) => (
-              <div key={a} className="px-4 py-5 first:pl-0"><p className="font-display text-2xl text-foam">{a}</p><p className="text-xs text-paper/60">{b}</p></div>
+        <div className="border-t border-paper/10">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 divide-paper/10 px-4 sm:px-6 md:grid-cols-4 md:divide-x">
+            {[['72 h', 'congestion outlook window'], ['4', 'inputs per ETA: AIS, weather, route history, port state'], ['1 plan', 'for berths, cranes, tugs and pilots'], ['Every change', 'logged with a reason and approver']].map(([a, b]) => (
+              <div key={a} className="py-6 md:px-6"><p className="font-display text-2xl text-foam">{a}</p><p className="mt-1 text-xs text-paper/55">{b}</p></div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PROBLEM — port call timeline */}
+      {/* PROBLEM — editorial two column with numbered consequences */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-        <div className="reveal grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
-          <div>
-            <Label n="01">The problem</Label>
-            <H2>Ports plan around the ETA on the notice. Ships don't keep it.</H2>
-            <p className="mt-5 text-ink/70">Berth plans in many terminals still live in spreadsheets and radio calls, built from the arrival time an agent declared days earlier. Weather, slow steaming and delays at the previous port shift that time by hours. Each shift breaks the sequence, and planners rebuild it by hand.</p>
-            <p className="mt-4 text-ink/70">The cost lands everywhere: ships idle at anchorage burning fuel and charter time, quay cranes and labour gangs wait for vessels that are not alongside, and tugs and pilots are called at short notice. More calls means more reshuffles, so the manual approach gets worse as a port gets busier.</p>
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.1fr]">
+          <div className="reveal lg:sticky lg:top-24 lg:self-start">
+            <Tag>The problem</Tag>
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-tight sm:text-5xl">Berth plans are built on arrival times nobody trusts.</h2>
+            <p className="mt-5 text-ink/70">Agents declare an ETA days ahead. Weather, slow steaming and delays at the previous port move it by hours. Planners rebuild the sequence by hand in spreadsheets and radio calls, and every rebuild ripples into cranes, gangs, tugs and pilots.</p>
           </div>
-          <ol className="relative border-l-2 border-dashed border-ink/20 pl-8">
-            {[['T−72h', 'Agent declares ETA 06:00 Tuesday', 'Berth 1 is reserved and a crane gang is booked.'],
-              ['T−18h', 'Head seas slow the vessel to 9 knots', 'Nobody on the quay sees it; the plan still says 06:00.'],
-              ['06:00', 'Crane gang and berth sit idle', 'A second vessel waits at anchorage for a berth that is empty.'],
-              ['09:40', 'Ship arrives, the day is rebuilt by phone', 'Tugs, pilots and the next three calls are shuffled manually.']].map(([t, a, b], i) => (
-              <li key={t} className="relative pb-8 last:pb-0">
-                <span className={`absolute -left-[41px] grid h-5 w-5 place-items-center rounded-full border-2 ${i === 3 ? 'border-signal bg-signal' : 'border-ink bg-paper'}`} />
-                <p className="font-mono text-xs text-signal">{t}</p><p className="mt-1 font-semibold">{a}</p><p className="text-sm text-ink/60">{b}</p>
+          <ol className="reveal space-y-4">
+            {[['Ships wait at anchorage', 'A vessel that arrives early finds its berth still occupied; one that arrives late leaves a berth and crane gang idle.'],
+              ['Fuel burns for nothing', 'Lines run at full speed to meet a berth window that was never going to be free, then drift for a day.'],
+              ['Harbor services staff for the worst case', 'Tugs and pilots hear about jobs late, so crews are booked defensively and still miss tide windows.'],
+              ['It doesn\'t scale', 'Each extra berth multiplies the combinations a planner has to juggle by hand on every schedule change.']].map(([t, d], k) => (
+              <li key={t} className="flex gap-5 rounded-2xl border border-ink/10 bg-white p-6">
+                <span className="font-display text-4xl text-signal/80">0{k + 1}</span>
+                <div><h3 className="font-semibold">{t}</h3><p className="mt-1 text-sm text-ink/65">{d}</p></div>
               </li>
             ))}
-            <li className="mt-6 rounded-xl bg-sea p-5 text-white"><p className="font-mono text-xs uppercase tracking-widest text-white/70">With VesselGrid</p><p className="mt-1">The slowdown at T−18h updates the predicted ETA, the scheduler moves the waiting vessel onto Berth 1, and the crane gang, pilot and tugs are re-planned before anyone is left waiting.</p></li>
+            <li className="flex items-start gap-4 rounded-2xl bg-ink p-6 text-paper">
+              <ArrowDownRight className="mt-1 shrink-0 text-foam" />
+              <p className="text-sm text-paper/80"><strong className="text-paper">VesselGrid's answer:</strong> predict the real arrival, re-plan automatically when it moves, and send people only the decisions that need them.</p>
+            </li>
           </ol>
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section id="features" className="bg-ink text-paper chart-grid-dark">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-          <div className="reveal max-w-3xl"><Label n="02" light>The platform</Label><H2 light>Six tools, one live plan of the quay.</H2>
-            <p className="mt-4 text-paper/65">Each capability feeds the next: predictions drive the berth plan, the berth plan drives dispatch, and anything the scheduler can't settle goes to a person.</p></div>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-paper/10 bg-paper/10 md:grid-cols-2 lg:grid-cols-3">
-            {features.map(([t, d, b], i) => { const I = featIcons[i]; return (
-              <article key={t} className="reveal bg-ink p-7 transition hover:bg-deep">
-                <div className="flex items-center justify-between"><I className="text-foam" size={22} /><span className="font-mono text-xs text-paper/30">0{i + 1}</span></div>
-                <h3 className="mt-6 font-display text-xl font-semibold">{t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-paper/65">{d}</p>
-                <p className="mt-4 border-t border-paper/10 pt-4 text-sm text-foam">{b}</p>
-              </article>) })}
+      {/* FEATURES — bento */}
+      <section id="features" className="bg-sand/60 py-20 sm:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="reveal flex flex-wrap items-end justify-between gap-6">
+            <div><Tag>Platform</Tag><h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight sm:text-5xl">Six modules, one live plan.</h2></div>
+            <p className="max-w-sm text-sm text-ink/65">Each module reads from and writes to the same berth plan, so a change in one ETA flows through berths, cranes and harbor services.</p>
+          </div>
+          <div className="mt-12 grid gap-4 md:grid-cols-6">
+            <div className="reveal rounded-3xl bg-ink p-6 text-paper md:col-span-4 md:row-span-2">
+              <div className="flex items-center gap-2 text-foam"><CalendarRange size={18} /><span className="font-mono text-xs uppercase tracking-widest">{features[1][0]}</span></div>
+              <p className="mt-3 max-w-lg text-paper/75">{features[1][1]}</p>
+              <div className="mt-6 rounded-xl bg-paper p-4 text-ink"><BerthGantt compact /></div>
+              <p className="mt-4 text-sm text-foam">{features[1][2]}</p>
+            </div>
+            {[0, 2, 3, 4, 5].map((k) => {
+              const I = featIcons[k]
+              return (
+                <div key={k} className={`reveal rounded-3xl border border-ink/10 bg-paper p-6 ${k === 0 ? 'md:col-span-2' : k === 2 ? 'md:col-span-2' : 'md:col-span-2'}`}>
+                  <I size={22} className="text-signal" />
+                  <h3 className="mt-4 font-display text-xl font-semibold">{features[k][0]}</h3>
+                  <p className="mt-2 text-sm text-ink/65">{features[k][1]}</p>
+                  <p className="mt-3 border-t border-ink/10 pt-3 text-sm font-medium text-sea">{features[k][2]}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* HOW IT WORKS — horizontal rail */}
       <section id="how" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-        <div className="reveal"><Label n="03">How it works</Label><H2>From a dot on the AIS map to a confirmed berth.</H2></div>
-        <div className="mt-14 grid gap-6 md:grid-cols-4">
-          {[[Satellite, 'Connect', 'AIS feeds, weather data and the terminal\'s berth and crane constraints are connected to a workspace.'],
-            [Radar, 'Predict', 'ETA models score each inbound vessel and refresh the prediction as new positions arrive.'],
-            [CalendarRange, 'Plan', 'The scheduler sequences berths, cranes, tugs and pilots against length, draft, cargo and tide.'],
-            [ListChecks, 'Review & publish', 'Planners approve exceptions and share the updated plan with lines, agents and harbor services.']].map(([I, t, d], i) => (
-            <div key={t} className="reveal relative rounded-2xl border border-ink/15 bg-white p-6">
-              <span className="font-mono text-xs text-signal">STEP {i + 1}</span>
-              <I className="mt-4 text-sea" size={26} />
-              <h3 className="mt-4 font-display text-xl font-semibold">{t}</h3>
+        <div className="reveal"><Tag>How it works</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">From a ping at sea to a published plan.</h2></div>
+        <div className="relative mt-14 grid gap-8 md:grid-cols-4">
+          <div className="absolute left-0 right-0 top-6 hidden h-px bg-ink/15 md:block" />
+          {steps.map(([t, d, I], k) => (
+            <div key={t} className="reveal relative">
+              <div className="relative grid h-12 w-12 place-items-center rounded-full border border-ink/15 bg-paper"><I size={20} className="text-signal" /></div>
+              <p className="mt-5 font-mono text-xs text-ink/40">STEP {k + 1}</p>
+              <h3 className="mt-1 font-display text-2xl font-semibold">{t}</h3>
               <p className="mt-2 text-sm text-ink/65">{d}</p>
-              {i < 3 && <ArrowRight className="absolute -right-5 top-1/2 hidden text-ink/25 md:block" />}
             </div>
           ))}
         </div>
       </section>
 
       {/* DEMO */}
-      <section id="demo" className="border-y border-ink/10 bg-sand/50">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-          <div className="reveal mb-10 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-            <div><Label n="04">Product preview</Label><H2>Try a terminal workspace.</H2></div>
-            <p className="max-w-md text-sm text-ink/65">An interactive preview of the VesselGrid workspace using a fictional terminal and sample vessels. Search arrivals, open a call, confirm tug jobs, approve the scheduler's proposals and generate a shift summary.</p>
-          </div>
-          <Demo />
+      <section id="demo" className="chart-grid-dark bg-deep py-20 text-paper sm:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="reveal mb-10 max-w-2xl"><Tag light>Interactive preview</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">Try the terminal workspace.</h2>
+            <p className="mt-4 text-paper/65">Search arrivals, open a vessel, confirm tug jobs, resolve review items and generate a shift report. Or create your own workspace and plan your berths.</p></div>
+          <div className="reveal text-ink"><Demo /></div>
+          <Link to={user ? '/dashboard' : '/signup'} className="mt-8 inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 font-semibold text-white hover:brightness-110">{user ? 'Open your workspace' : 'Create your workspace'} <ArrowRight size={18} /></Link>
         </div>
       </section>
 
-      {/* SEGMENTS */}
+      {/* SEGMENTS — list rows */}
       <section id="segments" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-        <div className="reveal"><Label n="05">Who it's for</Label><H2>Built for everyone who touches a port call.</H2></div>
+        <div className="reveal"><Tag>Who it's for</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">Built for everyone around the berth.</h2></div>
         <div className="mt-12 divide-y divide-ink/10 border-y border-ink/10">
-          {segments.map(([t, p, u], i) => { const I = [Building2, Compass, Ship, Anchor][i]; return (
-            <div key={t} className="reveal grid gap-4 py-8 md:grid-cols-[260px_1fr_1fr] md:gap-10">
-              <h3 className="flex items-center gap-3 font-display text-2xl font-semibold"><I className="shrink-0 text-signal" size={22} />{t}</h3>
-              <div><p className="font-mono text-[11px] uppercase tracking-widest text-ink/40">Today</p><p className="mt-1 text-ink/70">{p}</p></div>
-              <div><p className="font-mono text-[11px] uppercase tracking-widest text-sea">With VesselGrid</p><p className="mt-1">{u}</p></div>
-            </div>) })}
+          {segments.map(([n, p, u], k) => {
+            const I = segIcons[k]
+            return (
+              <div key={n} className="reveal grid gap-4 py-8 md:grid-cols-[.8fr_1fr_1fr]">
+                <div className="flex items-center gap-3"><I className="text-signal" size={22} /><h3 className="font-display text-2xl font-semibold">{n}</h3></div>
+                <p className="text-sm text-ink/60"><span className="block font-mono text-[11px] uppercase tracking-widest text-ink/40">Today</span>{p}</p>
+                <p className="text-sm"><span className="block font-mono text-[11px] uppercase tracking-widest text-sea">With VesselGrid</span>{u}</p>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       {/* AWS */}
-      <section id="aws" className="bg-ink text-paper">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-          <div className="reveal max-w-3xl"><Label n="06" light>Technology</Label><H2 light>How We Use Amazon Web Services</H2>
-            <p className="mt-5 text-paper/70">VesselGrid's architecture is designed as a serverless pipeline on AWS: vessel telemetry and terminal updates enter through one API, are stored in a historical data lake, scored by machine-learning ETA models and written to a low-latency operational store that the berth plan reads from. Generative AI turns that operational state into shift reports people can act on.</p></div>
+      <section id="aws" className="bg-ink py-20 text-paper sm:py-28">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="reveal max-w-3xl"><Tag light>Technology</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">How We Use Amazon Web Services</h2>
+            <p className="mt-5 text-paper/70">VesselGrid's proposed architecture on AWS follows the path a vessel signal takes: high-velocity AIS and weather data enter through a serverless API, land in an S3 data lake, are processed by Lambda, scored by SageMaker ETA models and summarised by Bedrock, and reach planners as live berth state held in DynamoDB.</p></div>
           <div className="mt-12 grid gap-3 md:grid-cols-5">
-            {[[Satellite, 'Data collection', 'API Gateway + Lambda', 'AIS, weather and terminal events are ingested and normalised.'],
-              [Database, 'Secure storage', 'Amazon S3', 'Historical tracks and port calls kept for model training.'],
-              [Cpu, 'Processing', 'AWS Lambda', 'Conflict checks and re-planning run on each ETA change.'],
-              [Brain, 'AI intelligence', 'SageMaker + Bedrock', 'ETA and congestion models; plain-language reports.'],
-              [Monitor, 'Application', 'Amazon DynamoDB', 'Live berth, crane and dispatch state served to the web app.']].map(([I, t, s, d], i) => (
-              <div key={t} className="reveal relative rounded-xl border border-paper/15 bg-deep p-5">
-                <span className="font-mono text-[10px] text-paper/40">STAGE {i + 1}</span>
+            {pipeline.map(([s, svc, I], k) => (
+              <div key={s} className="reveal relative rounded-2xl border border-paper/15 p-5">
+                <p className="font-mono text-[11px] text-paper/40">0{k + 1}</p>
                 <I className="mt-3 text-foam" size={22} />
-                <p className="mt-3 font-semibold">{t}</p><p className="font-mono text-xs text-signal">{s}</p>
-                <p className="mt-2 text-xs text-paper/60">{d}</p>
+                <p className="mt-3 font-semibold">{s}</p>
+                <p className="mt-1 text-xs text-signal">{svc}</p>
+                {k < 4 && <ArrowRight size={16} className="absolute -right-3 top-1/2 hidden -translate-y-1/2 text-paper/30 md:block" />}
               </div>
             ))}
           </div>
           <ul className="mt-12 grid gap-x-10 gap-y-4 md:grid-cols-2">
-            {awsServices.map(([n, d]) => <li key={n} className="border-t border-paper/10 pt-4 text-sm text-paper/75"><b className="text-paper">{n}:</b> {d}</li>)}
+            {awsServices.map(([n, d]) => <li key={n} className="reveal border-t border-paper/10 pt-4 text-sm text-paper/75"><strong className="text-paper">{n}:</strong> {d}</li>)}
           </ul>
         </div>
       </section>
 
+      {/* PRICING */}
+      <Pricing />
+
       {/* EARLY ACCESS */}
-      <section id="access" className="chart-grid border-b border-ink/10">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[.8fr_1.2fr]">
+      <section id="access" className="bg-sand/60 py-20 sm:py-28">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr]">
           <div className="reveal">
-            <Label n="07">Progress & early access</Label><H2>Help shape the first release.</H2>
-            <p className="mt-5 text-ink/70">VesselGrid was founded in 2026 and the platform is in active development. We are working with a small group of terminals, shipping lines and harbor service providers to test predictions and the berth scheduler against their real operations.</p>
-            <ul className="mt-6 space-y-3 text-sm">
-              {['Product design and interactive workspace preview complete', 'ETA and berth scheduling engine in development', 'AWS serverless architecture defined', 'Early-access partners being onboarded'].map((t) => <li key={t} className="flex gap-2"><Check size={17} className="mt-0.5 shrink-0 text-sea" />{t}</li>)}
-            </ul>
+            <Tag>Book a demo</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">See VesselGrid on your own berths.</h2>
+            <p className="mt-5 text-ink/70">Book a walkthrough with the team. We'll set up the berth plan around your terminal layout and talk through how your arrival data and existing systems connect.</p>
+            <ul className="mt-6 space-y-2 text-sm">{['Walkthrough of the berth plan with your terminal layout', 'Input on integrations with your existing systems', 'Onboarding support for your planners'].map((t) => <li key={t} className="flex gap-2"><Check size={16} className="mt-0.5 text-sea" />{t}</li>)}</ul>
           </div>
-          <div className="reveal rounded-2xl border border-ink/15 bg-paper p-6 sm:p-8">
-            <LeadForm formName="early-access" submitLabel="Request early access" fields={[
+          <div className="reveal rounded-3xl border border-ink/15 bg-white p-6 sm:p-8">
+            <LeadForm formName="demo-request" submitLabel="Book a demo" fields={[
               { name: 'name', label: 'Full name', required: true, auto: 'name' },
               { name: 'email', label: 'Business email', type: 'email', required: true, auto: 'email' },
               { name: 'company', label: 'Company', required: true, auto: 'organization' },
-              { name: 'size', label: 'Company size', required: true, options: ['1–10', '11–50', '51–200', '201–1,000', '1,000+'] },
-              { name: 'useCase', label: 'Primary use case', required: true, full: true, options: ['Berth scheduling', 'Vessel ETA prediction', 'Congestion planning', 'Tug and pilot dispatch', 'Shift reporting', 'Other'] },
+              { name: 'size', label: 'Company size', required: true, options: ['1-10', '11-50', '51-200', '201-1,000', '1,000+'] },
+              { name: 'useCase', label: 'Primary use case', required: true, full: true, options: ['Berth scheduling', 'Vessel ETA prediction', 'Congestion risk', 'Tug & pilot dispatch', 'Shift reporting', 'Other'] },
               { name: 'message', label: 'Message', type: 'textarea', full: true },
             ]} />
           </div>
         </div>
       </section>
 
-      {/* PRICING */}
-      <section id="pricing" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
-        <div className="reveal text-center"><Label n="08">Pricing</Label><H2>Plans per terminal workspace, billed monthly.</H2></div>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {pricing.map((p) => (
-            <div key={p.name} className={`reveal flex flex-col rounded-2xl border p-7 ${p.featured ? 'border-ink bg-ink text-paper' : 'border-ink/15 bg-white'}`}>
-              <p className="font-mono text-xs uppercase tracking-widest text-signal">{p.name}</p>
-              <p className="mt-4 font-display text-5xl font-semibold">{p.price}<span className="font-sans text-base font-normal opacity-60"> /month</span></p>
-              <p className={`mt-3 text-sm ${p.featured ? 'text-paper/65' : 'text-ink/60'}`}>{p.for}</p>
-              <ul className="mt-6 flex-1 space-y-2.5 text-sm">{p.items.map((i) => <li key={i} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-foam" />{i}</li>)}</ul>
-              <a href="#access" className={`mt-7 rounded-full py-3 text-center font-semibold ${p.featured ? 'bg-signal text-white' : 'border border-ink/25 hover:bg-ink/5'}`}>Request early access</a>
+      {/* TEAM + CONTACT */}
+      <section id="team" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+        <div className="grid gap-12 lg:grid-cols-2">
+          <div className="reveal">
+            <Tag>Team</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">The Team Behind VesselGrid</h2>
+            <div className="mt-8 flex items-center gap-5 rounded-3xl border border-ink/15 bg-white p-6">
+              <div className="grid h-20 w-20 shrink-0 place-items-center rounded-full bg-ink font-display text-2xl text-paper">NL</div>
+              <div><h3 className="font-display text-2xl font-semibold">{company.founder.name}</h3><p className="text-sm text-signal">{company.founder.title}</p>
+                <p className="mt-2 text-sm text-ink/65">Founded VesselGrid in 2026 to give terminals and shipping lines a berth plan built on where ships actually are. Leads product, engineering and customer partnerships.</p></div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TEAM */}
-      <section id="team" className="border-y border-ink/10 bg-sand/50">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-2 lg:items-center">
-          <div className="reveal"><Label n="09">Team</Label><H2>The Team Behind VesselGrid</H2></div>
-          <div className="reveal flex items-center gap-5 rounded-2xl border border-ink/15 bg-white p-6">
-            <div className="grid h-20 w-20 shrink-0 place-items-center rounded-full bg-ink font-display text-2xl text-paper">LB</div>
-            <div><h3 className="font-display text-2xl font-semibold">{company.founder.name}</h3><p className="text-sm text-signal">{company.founder.title}</p>
-              <p className="mt-2 text-sm text-ink/65">Founded VesselGrid in 2026 to give terminals and shipping lines a berth plan built on where ships actually are. Leads product, engineering and early-access partnerships.</p></div>
+          </div>
+          <div id="contact" className="reveal">
+            <Tag>Contact</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">Talk to the team.</h2>
+            <div className="mt-4 flex flex-wrap gap-5 text-sm font-semibold">
+              <a href={`mailto:${company.email}`} className="flex items-center gap-2 hover:text-signal"><Mail size={16} />{company.email}</a>
+              <a href={company.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-signal"><Linkedin size={16} />LinkedIn</a>
+            </div>
+            <div className="mt-6 rounded-3xl border border-ink/15 bg-white p-6">
+              <LeadForm formName="contact" submitLabel="Send message" fields={[
+                { name: 'name', label: 'Full name', required: true, auto: 'name' },
+                { name: 'email', label: 'Email', type: 'email', required: true, auto: 'email' },
+                { name: 'topic', label: 'Inquiry type', required: true, full: true, options: ['Product demo', 'Account & billing', 'Partnership', 'Integration question', 'Press', 'Other'] },
+                { name: 'message', label: 'Message', type: 'textarea', required: true, full: true },
+              ]} />
+            </div>
           </div>
         </div>
       </section>
-
-      {/* CONTACT */}
-      <section id="contact" className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[.8fr_1.2fr]">
-        <div className="reveal">
-          <Label n="10">Contact</Label><H2>Talk to the team.</H2>
-          <p className="mt-5 text-ink/70">Questions about the product, partnerships or integrating your terminal systems.</p>
-          <a href={`mailto:${company.email}`} className="mt-6 flex items-center gap-3 font-semibold hover:text-signal"><Mail size={18} />{company.email}</a>
-          <a href={company.linkedin} target="_blank" rel="noreferrer" className="mt-3 flex items-center gap-3 font-semibold hover:text-signal"><Linkedin size={18} />VesselGrid on LinkedIn</a>
-        </div>
-        <div className="reveal rounded-2xl border border-ink/15 bg-white p-6 sm:p-8">
-          <LeadForm formName="contact" submitLabel="Send message" fields={[
-            { name: 'name', label: 'Full name', required: true, auto: 'name' },
-            { name: 'email', label: 'Email', type: 'email', required: true, auto: 'email' },
-            { name: 'topic', label: 'Inquiry type', required: true, full: true, options: ['Product demo', 'Early access', 'Partnership', 'Integration question', 'Press', 'Other'] },
-            { name: 'message', label: 'Message', type: 'textarea', required: true, full: true },
-          ]} />
-        </div>
-      </section>
     </Page>
+  )
+}
+
+function Pricing() {
+  const { user } = useAuth(); const nav = useNavigate()
+  const [annual, setAnnual] = useState(false)
+  const [pick, setPick] = useState(null)
+  const num = (p) => +p.price.replace(/[^\d]/g, '')
+  const show = (p) => annual ? `$${(num(p) * 12).toLocaleString()}` : p.price
+  return (
+    <section id="pricing" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+      <div className="reveal text-center"><Tag>Pricing</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">Plans for one berth or a whole port.</h2>
+        <div className="mt-6 inline-flex rounded-full border border-ink/15 bg-white p-1 text-sm" role="group" aria-label="Billing period">
+          {[['Monthly', false], ['Annual', true]].map(([l, v]) => <button key={l} onClick={() => setAnnual(v)} aria-pressed={annual === v} className={`rounded-full px-4 py-1.5 font-semibold ${annual === v ? 'bg-ink text-paper' : 'text-ink/60'}`}>{l}</button>)}
+        </div></div>
+      <div className="mt-12 grid gap-5 md:grid-cols-3">
+        {pricing.map((p) => (
+          <div key={p.name} className={`reveal flex flex-col rounded-3xl p-7 ${p.featured ? 'bg-ink text-paper' : 'border border-ink/15 bg-white'}`}>
+            <p className="font-mono text-xs uppercase tracking-widest text-signal">{p.name}</p>
+            <p className="mt-4 font-display text-5xl font-semibold">{show(p)}<span className="font-sans text-base font-normal opacity-60"> /{annual ? 'year' : 'month'}</span></p>
+            <p className="mt-3 text-sm opacity-70">{p.for}</p>
+            <ul className="mt-6 flex-1 space-y-2 text-sm">{p.items.map((i) => <li key={i} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-foam" />{i}</li>)}</ul>
+            <button onClick={() => setPick(p)} className={`mt-8 rounded-full py-3 text-center font-semibold ${p.featured ? 'bg-signal text-white' : 'border border-ink/20 hover:bg-sand'}`}>Choose {p.name}</button>
+          </div>
+        ))}
+      </div>
+      <p className="mt-6 text-center text-sm text-ink/55">Prices in US dollars, per workspace. Annual billing is 12 months paid up front.</p>
+      {pick && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-ink/40 p-4" onClick={() => setPick(null)}>
+          <div role="dialog" aria-modal="true" aria-label={`${pick.name} plan`} className="w-full max-w-md rounded-3xl bg-paper p-7" onClick={(e) => e.stopPropagation()}>
+            <p className="font-mono text-xs uppercase tracking-widest text-signal">{pick.name} plan</p>
+            <p className="mt-2 font-display text-4xl font-semibold">{show(pick)}<span className="font-sans text-base font-normal opacity-60"> /{annual ? 'year' : 'month'}</span></p>
+            <ul className="mt-4 space-y-1.5 text-sm">{pick.items.map((i) => <li key={i} className="flex gap-2"><Check size={15} className="mt-0.5 text-sea" />{i}</li>)}</ul>
+            <p className="mt-5 text-sm text-ink/60">Create your workspace on this plan now. Our team contacts you at your account email to arrange invoicing before the first billing period.</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              <button onClick={() => nav(user ? '/dashboard' : `/signup?plan=${pick.name.toLowerCase()}`)} className="rounded-full bg-signal px-5 py-2.5 font-semibold text-white">{user ? 'Go to dashboard' : `Continue with ${pick.name}`}</button>
+              <a href="#access" onClick={() => setPick(null)} className="rounded-full border border-ink/20 px-5 py-2.5 font-semibold">Talk to sales</a>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
   )
 }

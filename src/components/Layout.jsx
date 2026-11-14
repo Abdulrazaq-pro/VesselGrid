@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../lib/auth'
 import { Menu, X, Mail } from 'lucide-react'
 import Linkedin from './LinkedinIcon'
 import { company } from '../data/company'
@@ -13,10 +14,11 @@ export function Logo({ light = false }) {
   )
 }
 
-const nav = [['Product', '/#product'], ['Platform', '/#features'], ['Demo', '/#demo'], ['AWS', '/#aws'], ['Pricing', '/#pricing'], ['Team', '/#team'], ['Contact', '/#contact']]
+const nav = [['Platform', '/#features'], ['How it works', '/#how'], ['Demo', '/#demo'], ['AWS', '/#aws'], ['Pricing', '/#pricing'], ['Team', '/#team'], ['Contact', '/#contact']]
 
 export function Header() {
   const [open, setOpen] = useState(false)
+  const { user } = useAuth()
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -24,13 +26,13 @@ export function Header() {
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
           {nav.map(([l, h]) => <a key={l} href={h} className="text-sm font-medium text-ink/70 hover:text-ink">{l}</a>)}
         </nav>
-        <a href="/#access" className="hidden rounded-full bg-ink px-5 py-2 text-sm font-semibold text-paper hover:bg-deep lg:inline-flex">Request early access</a>
+        <div className="hidden items-center gap-3 lg:flex">{user ? <Link to="/dashboard" className="rounded-full bg-ink px-5 py-2 text-sm font-semibold text-paper hover:bg-deep">Go to dashboard</Link> : <><Link to="/login" className="text-sm font-semibold text-ink/80 hover:text-ink">Sign in</Link><Link to="/signup" className="rounded-full bg-ink px-5 py-2 text-sm font-semibold text-paper hover:bg-deep">Get started</Link></>}</div>
         <button className="lg:hidden p-2" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button>
       </div>
       {open && (
         <nav className="border-t border-ink/10 bg-paper px-4 pb-5 lg:hidden" aria-label="Mobile">
           {nav.map(([l, h]) => <a key={l} href={h} onClick={() => setOpen(false)} className="block border-b border-ink/5 py-3 font-medium">{l}</a>)}
-          <a href="/#access" onClick={() => setOpen(false)} className="mt-4 block rounded-full bg-ink py-3 text-center font-semibold text-paper">Request early access</a>
+          {user ? <Link to="/dashboard" className="mt-4 block rounded-full bg-ink py-3 text-center font-semibold text-paper">Go to dashboard</Link> : <div className="mt-4 grid grid-cols-2 gap-2"><Link to="/login" className="rounded-full border border-ink/20 py-3 text-center font-semibold">Sign in</Link><Link to="/signup" className="rounded-full bg-ink py-3 text-center font-semibold text-paper">Get started</Link></div>}
         </nav>
       )}
     </header>
@@ -57,6 +59,7 @@ export function Footer() {
           <p className="font-mono text-xs uppercase tracking-widest text-paper/40">Legal</p>
           <Link to="/privacy" className="mt-3 block text-paper/70 hover:text-paper">Privacy Policy</Link>
           <Link to="/terms" className="mt-3 block text-paper/70 hover:text-paper">Terms of Service</Link>
+          <Link to="/security" className="mt-3 block text-paper/70 hover:text-paper">Security</Link>
           <a href={`mailto:${company.email}`} className="mt-3 block text-paper/70 hover:text-paper">{company.email}</a>
         </div>
       </div>

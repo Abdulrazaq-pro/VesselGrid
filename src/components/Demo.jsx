@@ -49,7 +49,7 @@ export default function Demo() {
     <div className="overflow-hidden rounded-2xl border border-ink/15 bg-white shadow-[0_30px_80px_-30px_rgba(11,29,42,.35)]">
       <div className="flex items-center justify-between border-b border-ink/10 bg-ink px-4 py-2.5 text-paper">
         <div className="flex items-center gap-2 text-sm"><Anchor size={15} className="text-foam" /><span className="font-semibold">Lekki Deep Quay</span><span className="hidden text-paper/50 sm:inline">· Terminal workspace</span></div>
-        <span className="rounded border border-paper/25 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-paper/70">Sample data</span>
+        <span className="rounded border border-paper/25 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-paper/70">Preview</span>
       </div>
       <div className="grid md:grid-cols-[180px_1fr]">
         <nav className="flex gap-1 overflow-x-auto border-b border-ink/10 bg-sand/40 p-2 md:flex-col md:border-b-0 md:border-r" aria-label="Demo sections">
@@ -153,7 +153,7 @@ export default function Demo() {
       {sel && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-ink/50 p-4" onClick={() => setSel(null)} role="dialog" aria-modal="true" aria-label={`${sel.name} details`}>
           <div className="w-full max-w-md rounded-2xl bg-white p-6" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-start justify-between"><div><p className="font-mono text-xs text-ink/50">{sel.id} · Sample data</p><h4 className="font-display text-2xl font-semibold">{sel.name}</h4></div><button onClick={() => setSel(null)} aria-label="Close"><X /></button></div>
+            <div className="flex items-start justify-between"><div><p className="font-mono text-xs text-ink/50">{sel.id} · Preview data</p><h4 className="font-display text-2xl font-semibold">{sel.name}</h4></div><button onClick={() => setSel(null)} aria-label="Close"><X /></button></div>
             <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
               {[['Line', sel.line], ['Type', sel.type], ['LOA', `${sel.loa} m`], ['Draft', `${sel.draft} m`], ['Declared ETA', sel.declared], ['Predicted ETA', sel.predicted], ['Berth', sel.berth], ['Cargo', sel.cargo]].map(([k, v]) => <div key={k}><dt className="text-[11px] text-ink/50">{k}</dt><dd className="font-medium">{v}</dd></div>)}
             </dl>
