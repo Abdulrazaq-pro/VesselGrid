@@ -71,7 +71,7 @@ export default function Home() {
           <div>
             <Tag light>Port operations software</Tag>
             <h1 className="mt-6 font-display text-[2.6rem] font-semibold leading-[1.02] sm:text-6xl lg:text-7xl">The declared ETA is a guess.<br /><span className="text-signal">Plan around the real one.</span></h1>
-            <p className="mt-6 max-w-xl text-lg text-paper/70">VesselGrid predicts when each vessel will actually arrive from live AIS and weather data, then turns those predictions into a berth, tug and pilot plan that updates as ships move.</p>
+            <p className="mt-6 max-w-xl text-lg text-paper/70">Vesselgrid predicts when each vessel will actually arrive from live AIS and weather data, then turns those predictions into a berth, tug and pilot plan that updates as ships move.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to={user ? '/dashboard' : '/signup'} className="inline-flex items-center gap-2 rounded-full bg-signal px-6 py-3 font-semibold text-white hover:brightness-110">{user ? 'Go to dashboard' : 'Launch your workspace'} <ArrowRight size={18} /></Link>
               <a href="#access" className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-6 py-3 font-semibold hover:bg-paper/10">Book a demo</a>
@@ -108,7 +108,7 @@ export default function Home() {
             ))}
             <li className="flex items-start gap-4 rounded-2xl bg-ink p-6 text-paper">
               <ArrowDownRight className="mt-1 shrink-0 text-foam" />
-              <p className="text-sm text-paper/80"><strong className="text-paper">VesselGrid's answer:</strong> predict the real arrival, re-plan automatically when it moves, and send people only the decisions that need them.</p>
+              <p className="text-sm text-paper/80"><strong className="text-paper">Vesselgrid's answer:</strong> predict the real arrival, re-plan automatically when it moves, and send people only the decisions that need them.</p>
             </li>
           </ol>
         </div>
@@ -179,7 +179,7 @@ export default function Home() {
               <div key={n} className="reveal grid gap-4 py-8 md:grid-cols-[.8fr_1fr_1fr]">
                 <div className="flex items-center gap-3"><I className="text-signal" size={22} /><h3 className="font-display text-2xl font-semibold">{n}</h3></div>
                 <p className="text-sm text-ink/60"><span className="block font-mono text-[11px] uppercase tracking-widest text-ink/40">Today</span>{p}</p>
-                <p className="text-sm"><span className="block font-mono text-[11px] uppercase tracking-widest text-sea">With VesselGrid</span>{u}</p>
+                <p className="text-sm"><span className="block font-mono text-[11px] uppercase tracking-widest text-sea">With Vesselgrid</span>{u}</p>
               </div>
             )
           })}
@@ -190,7 +190,7 @@ export default function Home() {
       <section id="aws" className="bg-ink py-20 text-paper sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="reveal max-w-3xl"><Tag light>Technology</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">How We Use Amazon Web Services</h2>
-            <p className="mt-5 text-paper/70">VesselGrid's proposed architecture on AWS follows the path a vessel signal takes: high-velocity AIS and weather data enter through a serverless API, land in an S3 data lake, are processed by Lambda, scored by SageMaker ETA models and summarised by Bedrock, and reach planners as live berth state held in DynamoDB.</p></div>
+            <p className="mt-5 text-paper/70">Vesselgrid's proposed architecture on AWS follows the path a vessel signal takes: high-velocity AIS and weather data enter through a serverless API, land in an S3 data lake, are processed by Lambda, scored by SageMaker ETA models and summarised by Bedrock, and reach planners as live berth state held in DynamoDB.</p></div>
           <div className="mt-12 grid gap-3 md:grid-cols-5">
             {pipeline.map(([s, svc, I], k) => (
               <div key={s} className="reveal relative rounded-2xl border border-paper/15 p-5">
@@ -215,7 +215,7 @@ export default function Home() {
       <section id="access" className="bg-sand/60 py-20 sm:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[.8fr_1.2fr]">
           <div className="reveal">
-            <Tag>Book a demo</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">See VesselGrid on your own berths.</h2>
+            <Tag>Book a demo</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">See Vesselgrid on your own berths.</h2>
             <p className="mt-5 text-ink/70">Book a walkthrough with the team. We'll set up the berth plan around your terminal layout and talk through how your arrival data and existing systems connect.</p>
             <ul className="mt-6 space-y-2 text-sm">{['Walkthrough of the berth plan with your terminal layout', 'Input on integrations with your existing systems', 'Onboarding support for your planners'].map((t) => <li key={t} className="flex gap-2"><Check size={16} className="mt-0.5 text-sea" />{t}</li>)}</ul>
           </div>
@@ -236,11 +236,12 @@ export default function Home() {
       <section id="team" className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="reveal">
-            <Tag>Team</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">The Team Behind VesselGrid</h2>
+            <Tag>Team</Tag><h2 className="mt-4 font-display text-4xl font-semibold sm:text-5xl">The Team Behind Vesselgrid</h2>
             <div className="mt-8 flex items-center gap-5 rounded-3xl border border-ink/15 bg-white p-6">
-              <div className="grid h-20 w-20 shrink-0 place-items-center rounded-full bg-ink font-display text-2xl text-paper">NL</div>
+              <img src={company.founder.photo} alt={`${company.founder.name}, ${company.founder.title} of Vesselgrid`} width="96" height="96" loading="lazy" className="h-24 w-24 shrink-0 rounded-full object-cover object-top ring-2 ring-sand" />
               <div><h3 className="font-display text-2xl font-semibold">{company.founder.name}</h3><p className="text-sm text-signal">{company.founder.title}</p>
-                <p className="mt-2 text-sm text-ink/65">Founded VesselGrid in 2026 to give terminals and shipping lines a berth plan built on where ships actually are. Leads product, engineering and customer partnerships.</p></div>
+                <p className="mt-2 text-sm text-ink/65">Founded Vesselgrid in 2026 to give terminals and shipping lines a berth plan built on where ships actually are. Leads product, engineering and customer partnerships.</p>
+                <a href={company.founder.linkedin} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold hover:text-signal"><Linkedin size={15} />Connect on LinkedIn</a></div>
             </div>
           </div>
           <div id="contact" className="reveal">

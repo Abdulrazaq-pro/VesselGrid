@@ -27,11 +27,11 @@ function Field({ label, value, count }) {
 const Card = ({ id, title, children }) => <section id={id} className="rounded-2xl border border-ink/15 bg-paper p-5 sm:p-7"><h2 className="font-display text-2xl font-semibold">{title}</h2><div className="mt-4">{children}</div></section>
 
 const tagline = 'AI vessel ETA prediction and berth scheduling for terminal operators, port authorities and shipping lines.'
-const overview = `VesselGrid is a B2B software company building an AI platform for port and terminal operations. We help terminal operators, port authorities, shipping lines and harbor service providers reduce vessel waiting time and plan berths around when ships will actually arrive.
+const overview = `Vesselgrid is a B2B software company building an AI platform for port and terminal operations. We help terminal operators, port authorities, shipping lines and harbor service providers reduce vessel waiting time and plan berths around when ships will actually arrive.
 
 Most berth plans are built from the arrival time an agent declared days earlier. Weather, slow steaming and delays at previous ports move that time by hours, and planners rebuild the sequence by hand. Ships wait at anchorage, cranes and labour sit idle, and tugs and pilots are called at short notice.
 
-VesselGrid combines live AIS vessel positions, marine weather and historical port congestion to predict vessel arrival times. Those predictions drive a berth scheduler that sequences calls against berth length, draft, cargo type, crane availability and tide windows, and re-plans when an ETA changes.
+Vesselgrid combines live AIS vessel positions, marine weather and historical port congestion to predict vessel arrival times. Those predictions drive a berth scheduler that sequences calls against berth length, draft, cargo type, crane availability and tide windows, and re-plans when an ETA changes.
 
 Key capabilities:
 • Predictive ETA engine
@@ -41,9 +41,9 @@ Key capabilities:
 • AI-written shift handover summaries and risk reports
 • Exception review queue so planners approve every automated change
 
-Founded in 2026, VesselGrid is building its initial product and onboarding early-access partners. Learn more at www.vesselgrid.site.`
+Founded in 2026, Vesselgrid is building its initial product and onboarding early-access partners. Learn more at www.vesselgrid.site.`
 const specialties = ['Berth scheduling', 'Vessel ETA prediction', 'Port operations software', 'Terminal operating systems', 'Maritime logistics', 'AIS data analytics', 'Port congestion analytics', 'Tug and pilot dispatch', 'Harbor logistics', 'Shipping line operations', 'Machine learning', 'Generative AI reporting', 'B2B SaaS', 'Supply chain visibility', 'Quay crane planning', 'Maritime weather analytics', 'Container terminal planning', 'Port call optimisation', 'Serverless architecture', 'Operational decision support']
-const q9 = 'VesselGrid is a web platform for port terminal operators and shipping lines that predicts vessel arrivals and automates berth, tug and pilot scheduling to cut waiting time. Built with React on AWS SageMaker, Bedrock, Lambda and DynamoDB.'
+const q9 = 'Vesselgrid is a web platform for port terminal operators and shipping lines that predicts vessel arrivals and automates berth, tug and pilot scheduling to cut waiting time. Built with React on AWS SageMaker, Bedrock, Lambda and DynamoDB.'
 
 const activate = [
   ['Q1', 'Top 3 ways AWS can help you', 'Launching products faster; Building scalable architecture; Reducing burn rate', 'Pre-launch product: these match the build stage and are things AWS credits and architecture guidance directly help with.'],
@@ -63,8 +63,8 @@ const activate = [
 ]
 
 const details = [
-  ['Company name and website', 'VesselGrid — https://www.vesselgrid.site'],
-  ['One-sentence description', 'VesselGrid predicts vessel arrival times from AIS and weather data and automatically plans berths, tugs and pilots for port terminals.'],
+  ['Company name and website', 'Vesselgrid — https://www.vesselgrid.site'],
+  ['One-sentence description', 'Vesselgrid predicts vessel arrival times from AIS and weather data and automatically plans berths, tugs and pilots for port terminals.'],
   ['Customers', 'Businesses — terminal operators, port authorities, shipping lines, harbor service providers (maritime logistics).'],
   ['Product stage', 'Idea / building'],
   ['Planned launch date', 'March 2, 2027 (assumed)'],
@@ -87,7 +87,7 @@ const assumed = [
   'Funding = No Funding, Valuation = No Valuation (Q11–Q12).',
   'API ticked in Q7 — untick if no API is being built yet.',
   'Team size 2–10 on LinkedIn is a size band; only one person (founder) is named on the site.',
-  'Founder personal LinkedIn not supplied, so no personal link is published.',
+  'Founder LinkedIn: https://www.linkedin.com/in/neemah-lawal-306171396 (linked from the Team section, with founder photo).',
   'Stage stays "Ideating/building initial product": the /signup → /dashboard workspace works but stores data in the browser only; ETA models, AIS feeds and AWS backend are not deployed yet. Do not claim launched customers.',
   'Forms save to the Firestore "leads" collection: read them in Firebase console → Firestore → leads.',
 ]
@@ -102,7 +102,7 @@ export default function AppKit() {
       <header className="border-b border-ink/10 bg-paper"><div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4"><Logo /><span className="font-mono text-xs text-ink/50">Application kit · internal</span></div></header>
       <main className="mx-auto max-w-6xl space-y-6 px-4 py-10">
         <div>
-          <h1 className="font-display text-4xl font-semibold">VesselGrid application kit</h1>
+          <h1 className="font-display text-4xl font-semibold">Vesselgrid application kit</h1>
           <p className="mt-2 text-ink/60">Everything needed for LinkedIn and the AWS Activate application, from one business record. Not linked from the public site.</p>
           <nav className="mt-4 flex flex-wrap gap-2 text-sm">{[['brand', 'Logo'], ['banner', 'Banner'], ['linkedin', 'LinkedIn profile'], ['activate', 'AWS Activate Q1–Q14'], ['details', 'Business details'], ['check', 'Assumptions & checklist']].map(([h, l]) => <a key={h} href={`#${h}`} className="rounded-full border border-ink/15 bg-white px-3 py-1 hover:bg-sand">{l}</a>)}</nav>
         </div>
@@ -124,7 +124,7 @@ export default function AppKit() {
         </Card>
 
         <Card id="banner" title="LinkedIn banner (1584 × 396)">
-          <img src={svgUrl(bannerSvg)} alt="VesselGrid LinkedIn banner" className="w-full rounded-lg border border-ink/10" />
+          <img src={svgUrl(bannerSvg)} alt="Vesselgrid LinkedIn banner" className="w-full rounded-lg border border-ink/10" />
           <div className="mt-3 flex flex-wrap gap-2">
             <button onClick={() => dlPng(bannerSvg, 1584, 396, 'vesselgrid-linkedin-banner.png')} className="inline-flex items-center gap-1 rounded-md bg-ink px-3 py-2 text-sm font-semibold text-paper"><Download size={15} />Download PNG (1584×396)</button>
             <button onClick={() => dl(svgUrl(bannerSvg), 'vesselgrid-linkedin-banner.svg')} className="inline-flex items-center gap-1 rounded-md border border-ink/20 px-3 py-2 text-sm font-semibold"><Download size={15} />SVG</button>
@@ -133,7 +133,7 @@ export default function AppKit() {
         </Card>
 
         <Card id="linkedin" title="LinkedIn company profile">
-          <Field label="Name" value="VesselGrid" />
+          <Field label="Name" value="Vesselgrid" />
           <Field label="Public URL" value={company.linkedin} />
           <Field label="Website" value={company.url} />
           <Field label="Industry" value="Software Development" />

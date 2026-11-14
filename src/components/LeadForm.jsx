@@ -40,7 +40,7 @@ export default function LeadForm({ fields, formName, submitLabel = 'Submit', dar
     <div role="status" className={`rounded-2xl border p-8 text-center ${dark ? 'border-paper/20' : 'border-ink/15 bg-white'}`}>
       <CheckCircle2 className="mx-auto text-foam" size={40} />
       <p className="mt-3 font-display text-2xl">Thanks, your message is in.</p>
-      <p className="mt-2 text-sm opacity-70">The VesselGrid team will reply to the email you provided.</p>
+      <p className="mt-2 text-sm opacity-70">The Vesselgrid team will reply to the email you provided.</p>
       <button onClick={() => setState('idle')} className="mt-5 text-sm underline">Send another</button>
     </div>
   )

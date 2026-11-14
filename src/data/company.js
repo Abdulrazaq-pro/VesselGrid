@@ -1,15 +1,15 @@
 export const company = {
-  name: 'VesselGrid',
+  name: 'Vesselgrid',
   domain: 'vesselgrid.site',
   url: 'https://www.vesselgrid.site',
   email: 'nimot@vesselgrid.site',
   linkedin: 'https://www.linkedin.com/company/vesselgrid',
   founded: '2026',
-  founder: { name: 'Nimotallah Lawal', title: 'Founder' },
+  founder: { name: 'Nimotallah Lawal', title: 'Founder', linkedin: 'https://www.linkedin.com/in/neemah-lawal-306171396', photo: '/founder.webp' },
   stage: 'Building initial product',
   tagline: 'AI vessel ETAs, berth scheduling and harbor dispatch for terminal operators and shipping lines.',
   positioning:
-    'VesselGrid helps terminal operators and shipping lines cut vessel waiting time by predicting arrivals from live AIS and weather data and turning those predictions into a berth, tug and pilot plan that updates as ships move.',
+    'Vesselgrid helps terminal operators and shipping lines cut vessel waiting time by predicting arrivals from live AIS and weather data and turning those predictions into a berth, tug and pilot plan that updates as ships move.',
 }
 
 export const pricing = [

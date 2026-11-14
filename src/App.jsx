@@ -29,11 +29,11 @@ function ScrollToTop() {
   return null
 }
 
-const titles = { '/privacy': 'Privacy Policy | VesselGrid', '/terms': 'Terms of Service | VesselGrid', '/app': 'Application Kit | VesselGrid', '/login': 'Sign in | VesselGrid', '/signup': 'Create account | VesselGrid', '/onboarding': 'Set up workspace | VesselGrid', '/dashboard': 'Workspace | VesselGrid', '/security': 'Security | VesselGrid' }
+const titles = { '/privacy': 'Privacy Policy | Vesselgrid', '/terms': 'Terms of Service | Vesselgrid', '/app': 'Application Kit | Vesselgrid', '/login': 'Sign in | Vesselgrid', '/signup': 'Create account | Vesselgrid', '/onboarding': 'Set up workspace | Vesselgrid', '/dashboard': 'Workspace | Vesselgrid', '/security': 'Security | Vesselgrid' }
 
 export default function App() {
   const { pathname } = useLocation()
-  useEffect(() => { document.title = titles[pathname] || 'VesselGrid | AI berth scheduling and vessel ETA prediction for ports' }, [pathname])
+  useEffect(() => { document.title = titles[pathname] || 'Vesselgrid | AI berth scheduling and vessel ETA prediction for ports' }, [pathname])
   return (
     <ErrorBoundary><AuthProvider><ToastProvider>
       <ScrollToTop />

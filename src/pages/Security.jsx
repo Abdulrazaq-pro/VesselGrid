@@ -5,7 +5,7 @@ import { company } from '../data/company'
 
 const now = [
   [Lock, 'Encryption in transit', 'The website and workspace are served only over HTTPS (TLS).'],
-  [KeyRound, 'Password handling', 'Sign-in runs on Firebase Authentication. VesselGrid never receives or stores passwords, and password resets go by email.'],
+  [KeyRound, 'Password handling', 'Sign-in runs on Firebase Authentication. Vesselgrid never receives or stores passwords, and password resets go by email.'],
   [HardDrive, 'Where your data lives', 'Workspace records are stored in Google Cloud Firestore, encrypted at rest by Google, and isolated per account by server-side security rules: one account cannot read another\'s data. Export to CSV at any time.'],
   [ShieldCheck, 'Human approval', 'Automated re-sequencing never publishes on its own: every berth plan change waits in the review queue for a planner to approve or reject, and is written to the activity log.'],
 ]
@@ -36,7 +36,7 @@ export default function Security() {
           <li>Authenticated, rate-limited ingestion through Amazon API Gateway.</li>
           <li>Audit logging of every berth plan change.</li>
         </ul>
-        <p className="mt-4 text-sm text-ink/55">VesselGrid does not currently hold SOC 2, ISO 27001 or other third-party certifications. Customers with specific security requirements can contact us to review them.</p>
+        <p className="mt-4 text-sm text-ink/55">Vesselgrid does not currently hold SOC 2, ISO 27001 or other third-party certifications. Customers with specific security requirements can contact us to review them.</p>
         <h2 className="mt-12 font-display text-2xl font-semibold">Integrations</h2>
         <div className="mt-5 overflow-hidden rounded-2xl border border-ink/10 bg-white">{integrations.map(([n, s, d]) => <div key={n} className="flex flex-wrap items-center justify-between gap-2 border-b border-ink/5 p-4 last:border-0"><div><p className="font-semibold">{n}</p><p className="text-sm text-ink/60">{d}</p></div><span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${tone[s]}`}>{s}</span></div>)}</div>
         <p className="mt-10 text-sm text-ink/60">Read the <Link to="/privacy" className="underline">Privacy Policy</Link> and <Link to="/terms" className="underline">Terms of Service</Link>.</p>

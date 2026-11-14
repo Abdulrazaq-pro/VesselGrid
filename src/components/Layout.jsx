@@ -7,9 +7,9 @@ import { company } from '../data/company'
 
 export function Logo({ light = false }) {
   return (
-    <Link to="/" className="flex items-center gap-2.5" aria-label="VesselGrid home">
+    <Link to="/" className="flex items-center gap-2.5" aria-label="Vesselgrid home">
       <img src="/logo-mark.svg" alt="" width="32" height="32" className="rounded-lg" />
-      <span className={`font-display text-xl font-bold tracking-tight ${light ? 'text-paper' : 'text-ink'}`}>Vessel<span className="text-signal">Grid</span></span>
+      <span className={`font-display text-xl font-bold tracking-tight ${light ? 'text-paper' : 'text-ink'}`}>Vessel<span className="text-signal">grid</span></span>
     </Link>
   )
 }
@@ -47,8 +47,8 @@ export function Footer() {
           <Logo light />
           <p className="mt-4 max-w-sm text-sm text-paper/60">AI vessel ETA prediction, berth scheduling and harbor dispatch for terminal operators, port authorities and shipping lines.</p>
           <div className="mt-5 flex gap-3">
-            <a href={company.linkedin} target="_blank" rel="noreferrer" aria-label="VesselGrid on LinkedIn" className="rounded-full border border-paper/20 p-2 hover:bg-paper/10"><Linkedin size={18} /></a>
-            <a href={`mailto:${company.email}`} aria-label="Email VesselGrid" className="rounded-full border border-paper/20 p-2 hover:bg-paper/10"><Mail size={18} /></a>
+            <a href={company.linkedin} target="_blank" rel="noreferrer" aria-label="Vesselgrid on LinkedIn" className="rounded-full border border-paper/20 p-2 hover:bg-paper/10"><Linkedin size={18} /></a>
+            <a href={`mailto:${company.email}`} aria-label="Email Vesselgrid" className="rounded-full border border-paper/20 p-2 hover:bg-paper/10"><Mail size={18} /></a>
           </div>
         </div>
         <div className="text-sm">
@@ -63,7 +63,7 @@ export function Footer() {
           <a href={`mailto:${company.email}`} className="mt-3 block text-paper/70 hover:text-paper">{company.email}</a>
         </div>
       </div>
-      <div className="border-t border-paper/10 py-5 text-center text-xs text-paper/40">© 2026 VesselGrid. All rights reserved.</div>
+      <div className="border-t border-paper/10 py-5 text-center text-xs text-paper/40">© 2026 Vesselgrid. All rights reserved.</div>
     </footer>
   )
 }

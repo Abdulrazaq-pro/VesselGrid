@@ -196,7 +196,7 @@ export default function Dashboard() {
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-ink/10 bg-ink px-4 text-paper print:hidden">
         <div className="flex items-center gap-3">
           <button className="md:hidden" onClick={() => setNav(!nav)} aria-label="Toggle navigation"><Menu size={20} /></button>
-          <Link to="/" className="flex items-center gap-2"><img src="/logo-mark.svg" alt="" width="26" height="26" className="rounded-md" /><span className="font-display font-bold">Vessel<span className="text-signal">Grid</span></span></Link>
+          <Link to="/" className="flex items-center gap-2"><img src="/logo-mark.svg" alt="" width="26" height="26" className="rounded-md" /><span className="font-display font-bold">Vessel<span className="text-signal">grid</span></span></Link>
           <span className="hidden text-sm text-paper/50 sm:inline">/ {user.org.terminal}</span>
         </div>
         <div className="flex items-center gap-3 text-sm">

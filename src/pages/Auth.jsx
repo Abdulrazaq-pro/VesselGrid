@@ -22,7 +22,7 @@ function Shell({ title, sub, children }) {
       <div className="chart-grid-dark hidden flex-col justify-end bg-ink p-12 text-paper lg:flex">
         <Anchor className="text-foam" />
         <p className="mt-4 max-w-md font-display text-3xl leading-snug">Plan berths, tugs and pilots around when ships will actually arrive.</p>
-        <p className="mt-3 text-sm text-paper/55">VesselGrid · port operations workspace</p>
+        <p className="mt-3 text-sm text-paper/55">Vesselgrid · port operations workspace</p>
       </div>
     </div>
   )
@@ -57,7 +57,7 @@ export function Signup() {
   }
   const set = (k) => (ev) => setV({ ...v, [k]: ev.target.value })
   return (
-    <Shell title="Create your workspace" sub={plan ? `Selected plan: ${pricing.find((p) => p.name.toLowerCase() === plan)?.name ?? plan}. You can change it later.` : 'Set up a VesselGrid workspace for your terminal in under two minutes.'}>
+    <Shell title="Create your workspace" sub={plan ? `Selected plan: ${pricing.find((p) => p.name.toLowerCase() === plan)?.name ?? plan}. You can change it later.` : 'Set up a Vesselgrid workspace for your terminal in under two minutes.'}>
       <form noValidate onSubmit={submit} className="space-y-4">
         <Field id="su-name" label="Full name" autoComplete="name" value={v.name} onChange={set('name')} error={e.name} />
         <Field id="su-email" label="Work email" type="email" autoComplete="email" value={v.email} onChange={set('email')} error={e.email} />
@@ -92,7 +92,7 @@ export function Login() {
         <button disabled={busy} className="flex w-full items-center justify-center gap-2 rounded-full bg-ink py-3 font-semibold text-paper hover:bg-deep disabled:opacity-60">{busy && <Loader2 size={16} className="animate-spin" />}Sign in</button>
       </form>
       <button type="button" onClick={async () => { if (!emailOk(v.email)) { setErr('Enter your email above, then click "Forgot password".'); return } try { await resetPassword(v.email); toast(`Password reset link sent to ${v.email}.`) } catch (er) { setErr(errText(er)) } }} className="mt-4 text-sm font-medium text-ink/60 underline">Forgot password?</button>
-      <p className="mt-6 text-sm text-ink/60">New to VesselGrid? <Link to="/signup" className="font-semibold text-signal">Create a workspace</Link></p>
+      <p className="mt-6 text-sm text-ink/60">New to Vesselgrid? <Link to="/signup" className="font-semibold text-signal">Create a workspace</Link></p>
     </Shell>
   )
 }

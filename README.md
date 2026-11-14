@@ -1,6 +1,6 @@
-# VesselGrid — website
+# Vesselgrid — website
 
-Marketing site for **VesselGrid** (https://www.vesselgrid.site): AI vessel ETA prediction, berth scheduling and tug/pilot dispatch for terminal operators, port authorities and shipping lines. Stage: building initial product. The in-page demo uses fictional sample data.
+Marketing site for **Vesselgrid** (https://www.vesselgrid.site): AI vessel ETA prediction, berth scheduling and tug/pilot dispatch for terminal operators, port authorities and shipping lines. Stage: building initial product. The in-page demo uses fictional sample data.
 
 Stack: Vite, React 19, JavaScript, Tailwind CSS v4, Lucide icons, React Router.
 
